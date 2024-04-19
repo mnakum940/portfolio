@@ -1,51 +1,53 @@
 <?php
-$errors = [];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get POST data
-    $name = isset($_POST['fullname']) ? strip_tags(trim($_POST['fullname'])) : '';
-    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-    $message = isset($_POST['message']) ? strip_tags(trim($_POST['message'])) : '';
+  //Import PHPMailer classes into the global namespace
+//These must be at the top of your script, not inside a function
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
-    // Validate form fields
-    if (empty($name)) {
-        $errors[] = 'Name is empty';
-    }
+if(isset($_POST['send'])){
 
-    if (empty($email)) {
-        $errors[] = 'Email is empty';
-    } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Email is invalid';
-    }
+  $name = $_POST['fullname'];
+  $email = $_POST['email'];
+  $msg = $_POST['message'];
 
-    if (empty($message)) {
-        $errors[] = 'Message is empty';
-    }
 
-    // If no errors, send email
-    if (empty($errors)) {
-        // Recipient email address (replace with your own)
-        $recipient = "mnakum940@gmail.com";
+//Load Composer's autoloader
+require 'PHPMailer/Exception.php';
+require 'PHPMailer/PHPMailer.php';
+require 'PHPMailer/SMTP.php';
 
-        // Additional headers
-        $headers = "From: $name <$email>";
+//Create an instance; passing `true` enables exceptions
+$mail = new PHPMailer(true);
 
-        // Send email
-        if (mail($recipient, 'New Contact Form Submission', $message, $headers)) {
-            echo "Email sent successfully!";
-        } else {
-            echo "Failed to send email. Please try again later.";
-        }
-    } else {
-        // Display errors
-        echo "The form contains the following errors:<br>";
-        foreach ($errors as $error) {
-            echo "- $error<br>";
-        }
-    }
-} else {
-    // Not a POST request, display a 403 forbidden error
-    http_response_code(403);
-    echo "You are not allowed to access this page.";
+try {
+    //Server settings
+    $mail->isSMTP();                                            //Send using SMTP
+    $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+    $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+    $mail->Username   = 'mnakum940@gmail.com';                     //SMTP username
+    $mail->Password   = 'oumfwinwfarjfjiw';                               //SMTP password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+    //Recipients
+    $mail->setFrom('mnakum940@gmail.com', 'Contact Form');
+    $mail->addAddress('neelborad00@gmail.com', 'Portfolio');     //Add a recipient
+
+
+    //Content
+    $mail->isHTML(true);                                  //Set email format to HTML
+    $mail->Subject = 'Contact Form from portfolio';
+    $mail->Body    = "Sender Name - $name <br> Sender Email - $email <br> Massage - $msg";
+
+    $mail->send();
+    echo "<div class='success'>Message has been sent!</div>";
+} catch (Exception $e) {
+    echo "<div class='alert'>Message could not be sent.</div>";
 }
+
+
+}
+
 ?>

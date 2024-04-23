@@ -159,6 +159,7 @@ for (let i = 0; i < navigationLinks.length; i++) {
 }
 
 const items = [
+  "Python Developer",
   "Data Analyst",
   "Data Scientist",
   "Machine Learning Engineer",

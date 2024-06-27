@@ -1,3 +1,3 @@
 # portfolio
 
-www.mnakum940.github.io
+www.mnakum940.github.io/portfolio

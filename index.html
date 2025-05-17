@@ -206,6 +206,10 @@
           </li>
 
           <li class="navbar-item">
+            <button class="navbar-link" data-nav-link>Research</button>
+          </li>
+
+          <li class="navbar-item">
             <button class="navbar-link" data-nav-link>Contact</button>
           </li>
 
@@ -934,6 +938,7 @@
               </a>
             </li>
 
+
 <!-- P2 WEB DES -->
             <li class="project-item  active" data-filter-item data-category="data analysis">
               <a href="https://github.com/mnakum940/Data-Visualization-of-Bird-Strikes-between-2000-2011" target="_blank">
@@ -971,6 +976,24 @@
               </a>
             </li>
 <!-- P4 WEB DEV -->
+            <li class="project-item  active" data-filter-item data-category="web development">
+              <a href="https://ocr-sudoku-solver.netlify.app/" target="_blank">
+
+                <figure class="project-img">
+                  <div class="project-item-icon-box">
+                    <ion-icon name="eye-outline"></ion-icon>
+                  </div>
+
+                  <img src="assets/images/ocr-sudoku.png" alt="Masterful Mane" loading="lazy">
+                </figure>
+
+                <h3 class="project-title">OCR Sudoku Solver</h3>
+
+                <p class="project-category">Web Development</p>
+
+              </a>
+            </li>
+            
             
             <li class="project-item  active" data-filter-item data-category="web development">
               <a href="https://masterful-mane.netlify.app/" target="_blank">
@@ -1202,6 +1225,84 @@ Effectively tackled complex technical challenges, showcasing the practical appli
 
         </section>
 
+        <section class="timeline">
+          <div class="title-wrapper">
+            <div class="icon-box">
+              <ion-icon name="trophy-outline"></ion-icon>
+            </div>
+            <h3 class="h3">IRJMETS Certificate of Publication</h3>
+          </div>
+          <ol class="timeline-list">
+            <li class="timeline-item ">
+              <h4 class="h4 timeline-item-title">IRJMETS Certificate of Publication</h4>
+              <span>April 2025</span>
+              <p class="timeline-text">
+                Certificate awarded by the International Research Journal of Modernization in Engineering Technology and Science (IRJMETS) for the publication of research work.
+              </p>
+              <div class="publication-links">
+                <a href="IRJMETS70400268316-3.pdf" class="publication-link" target="_blank">
+                  <ion-icon name="document-text-outline"></ion-icon>
+                  <span>View Certificate</span>
+                </a>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+      </article>
+
+
+      <!--
+        - #RESEARCH
+      -->
+
+      <article class="research" data-page="research">
+
+        <header>
+          <h2 class="h2 article-title">Research Publications</h2>
+        </header>
+
+        <section class="timeline">
+
+          <div class="title-wrapper">
+            <div class="icon-box">
+              <ion-icon name="book-outline"></ion-icon>
+            </div>
+
+            <h3 class="h3">Published Works</h3>
+          </div>
+
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <h4 class="h4 timeline-item-title">Comprehensive Analysis of Air Quality Trends in India Using Machine Learning and Deep Learning Models</h4>
+              <span>January 2025 | ICDCN 2025</span>
+              <p class="timeline-text">
+                This study presents a comparative analysis of Deep Learning and Machine Learning models for predicting air quality PM2.5 levels across Indian states. The research implements state-of-the-art models including RNN, LSTM, GRU networks, and traditional ML models like ARIMA and SARIMA. The RNN model demonstrated superior performance with nearly 99% accuracy in forecasting PM2.5 levels, showcasing its potential for effective air quality prediction across diverse geographical regions in India. Published in the International Conference on Distributed Computing and Networking (ICDCN 2025).
+              </p>
+              <div class="publication-links">
+                <a href="https://dl.acm.org/doi/10.1145/3700838.3703681" class="publication-link" target="_blank">
+                  <ion-icon name="document-text-outline"></ion-icon>
+                  <span>View Paper</span>
+                </a>
+              </div>
+            </li>
+            <li class="timeline-item">
+              <h4 class="h4 timeline-item-title">A REAL-TIME GEOLOCATION FRAMEWORK FOR ENHANCED MEDICINE ACCESSIBILITY: INTEGRATING FLASK, SQLITE, AND OPENSTREETMAP IN URBAN HEALTHCARE SYSTEMS</h4>
+              <span>April 2025 | IRJMETS</span>
+              <p class="timeline-text">
+                This research presents a geolocation-based real-time medicine search and notification system designed to enhance urban healthcare accessibility. The system, built using Python Flask, SQLite, and OpenStreetMap, employs the Haversine formula to identify pharmacies within a 100-meter radius. Key achievements include 150ms average request-handling latency, 100% geospatial accuracy, and seamless scalability through modular RESTful APIs. The system enables bidirectional communication between users and pharmacies, with real-time notifications and availability confirmations. Published in the International Research Journal of Modernization in Engineering Technology and Science (IRJMETS).
+              </p>
+              <div class="publication-links">
+                <a href="https://www.irjmets.com/uploadedfiles/paper//issue_4_april_2025/74172/final/fin_irjmets1746029590.pdf" class="publication-link" target="_blank">
+                  <ion-icon name="document-text-outline"></ion-icon>
+                  <span>View Paper</span>
+                </a>
+              </div>
+            </li>
+          </ol>
+
+        </section>
+
       </article>
 
 
@@ -1226,14 +1327,10 @@ Effectively tackled complex technical challenges, showcasing the practical appli
 
           <h3 class="h3 form-title">Contact Form</h3>
 
-          <form action="#" method="POST" data-netlify="true" name="contact" class="contact-form" netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="contact" />
-            <input type="hidden" name="bot-field" />
-            <input type="hidden" name="email-to" value="mnakum940@gmail.com" />
-            
+          <form id="contact-form" class="contact-form">
             <div class="input-wrapper">
-              <input type="text" name="fullname" placeholder="Full Name" required class="form-input">
-              <input type="email" name="email" placeholder="Email Address" required class="form-input">
+              <input type="text" name="user_name" placeholder="Full Name" required class="form-input">
+              <input type="email" name="user_email" placeholder="Email Address" required class="form-input">
             </div>
 
             <textarea name="message" placeholder="Your Message" required class="form-input"></textarea>
@@ -1297,6 +1394,33 @@ Effectively tackled complex technical challenges, showcasing the practical appli
     });
   </script>
 
+  <!-- Add EmailJS script before closing body tag -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+     (function() {
+        emailjs.init("sk5QakIb4zoBo8UmG");
+     })();
+
+     document.getElementById('contact-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get form data
+        const formData = {
+           user_name: this.user_name.value,
+           user_email: this.user_email.value,
+           message: this.message.value
+        };
+
+        // Send email
+        emailjs.send('service_oao4s4g', 'template_0kxyq95', formData)
+           .then(function() {
+              window.location.href = 'thanks.html';
+           }, function(error) {
+              console.log('Failed to send email:', error);
+              alert('Failed to send message. Please try again later.');
+           });
+     });
+  </script>
 
 </body>
 

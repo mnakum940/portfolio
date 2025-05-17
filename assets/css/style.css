@@ -2156,3 +2156,39 @@
     .timeline-text { max-width: 700px; }
   
   }
+
+.publication-links {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.publication-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--border-gradient-onyx);
+  border-radius: 14px;
+  color: var(--orange);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-3);
+  transition: 0.25s ease;
+}
+
+.publication-link:hover {
+  background: var(--orange);
+  color: var(--white);
+}
+
+.publication-link ion-icon {
+  font-size: 1.2em;
+}
+
+.timeline-item .publication-links {
+  margin-top: 1.5rem;
+}
+
+.timeline-item .publication-link {
+  font-size: var(--fs-7);
+}

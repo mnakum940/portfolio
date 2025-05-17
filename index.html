@@ -87,7 +87,7 @@
             <div class="contact-info">
               <p class="contact-title">Phone</p>
 
-              <a href="tel:+917046938703" class="contact-link">+91 70469 38703 </a>
+              <a href="tel:+919586161481" class="contact-link">+91 70469 38703 </a>
             </div>
 
           </li>
@@ -101,7 +101,7 @@
             <div class="contact-info">
               <p class="contact-title">Birthday</p>
 
-              <time datetime="2003-10-21">October 21, 2003</time>
+              <time datetime="1982-06-23">October 21, 2003</time>
             </div>
 
           </li>
@@ -670,7 +670,7 @@
               <span>2022 — 2025</span>
 
               <p class="timeline-text">
-                Pursuing B.Tech in Computer Science and Engineering (CSE) with a passion for technology and problem-solving.
+                Pursuing B.Tech in Information Computer Science and Engineering (CSE) with a passion for technology and problem-solving.
               </p>
 
             </li>
@@ -679,10 +679,10 @@
 
               <h4 class="h4 timeline-item-title">Delhi World Public School, Rajkot</h4>
 
-              <span>2019 — 2021 (COVID-19 BATCH)</span>
+              <span>2020 — 2021</span>
 
               <p class="timeline-text">
-                I completed my 12th standard in CBSE with 71.9% marks. This academic achievement reflects my dedication and prepared me well for future pursuits.
+                I completed my 12th standard in CBSE with 81.9% marks. This academic achievement reflects my dedication and prepared me well for future pursuits.
               </p>
 
             </li>
@@ -1226,23 +1226,22 @@ Effectively tackled complex technical challenges, showcasing the practical appli
 
           <h3 class="h3 form-title">Contact Form</h3>
 
-          <form class="form" data-form action="form-activate.php"  method="post">
-
+          <form action="#" method="POST" data-netlify="true" name="contact" class="contact-form" netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="contact" />
+            <input type="hidden" name="bot-field" />
+            <input type="hidden" name="email-to" value="mnakum940@gmail.com" />
+            
             <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
+              <input type="text" name="fullname" placeholder="Full Name" required class="form-input">
+              <input type="email" name="email" placeholder="Email Address" required class="form-input">
             </div>
 
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+            <textarea name="message" placeholder="Your Message" required class="form-input"></textarea>
 
-            
-            <button class="form-btn" name="send" type="submit" data-form-btn value="Send">
+            <button type="submit" class="form-btn">
               <ion-icon name="paper-plane"></ion-icon>
               <span>Send Message</span>
             </button>
-      
-
           </form>
 
         </section>

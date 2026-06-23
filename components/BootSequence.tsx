@@ -38,9 +38,7 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
   const glitchAudioRef = useRef<HTMLAudioElement | null>(null);
   const clickAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  const [audioUnlocked, setAudioUnlocked] = useState(false);
-
-  // Preload audio elements
+  // Preload and attempt autoplay of glitch sound (plays once, silent fail if blocked)
   useEffect(() => {
     const audio = new Audio("/virtual_vibes-glitch-sound-effect-hd-379466.mp3");
     audio.loop = false; // Play once only
@@ -51,20 +49,13 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
     clickAudio.preload = "auto";
     clickAudioRef.current = clickAudio;
 
+    // Attempt autoplay — silently ignored if browser blocks it
+    audio.play().catch(() => {});
+
     return () => {
       audio.pause();
     };
   }, []);
-
-  // Handle the click-to-start interaction that unlocks audio
-  const handleUnlockAudio = useCallback(() => {
-    if (audioUnlocked) return;
-    setAudioUnlocked(true);
-    // Play glitch sound once on first interaction
-    if (glitchAudioRef.current) {
-      glitchAudioRef.current.play().catch(() => {});
-    }
-  }, [audioUnlocked]);
 
   // Stop glitch sound with smooth fade out when boot is completed
   useEffect(() => {
@@ -210,27 +201,9 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.02 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden select-none cursor-pointer"
+          className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#050505] overflow-hidden select-none"
           style={{ fontFamily: "var(--font-jetbrains), monospace" }}
-          onClick={handleUnlockAudio}
         >
-          {/* Click-to-start prompt — fades away after first interaction */}
-          <AnimatePresence>
-            {!audioUnlocked && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-                <span className="text-cyan-400/50 text-[10px] uppercase tracking-[0.25em] font-medium animate-pulse">
-                  Click anywhere to begin
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           {/* Ambient glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-cyan-500/[0.04] blur-[150px] pointer-events-none" />

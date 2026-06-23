@@ -77,16 +77,16 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[70vh] lg:min-h-screen flex items-center pt-[88px] lg:pt-[72px] pb-12 lg:pb-0 px-margin-mobile lg:px-margin-desktop w-full max-w-container-max mx-auto overflow-hidden"
+      className="relative min-h-screen flex items-center pt-[88px] lg:pt-[72px] pb-12 lg:pb-0 px-margin-mobile lg:px-margin-desktop w-full max-w-container-max mx-auto overflow-hidden"
     >
       {/* Mobile background portrait overlay to save space and reduce scroll */}
       <div className="absolute inset-0 block lg:hidden z-0 overflow-hidden">
         <motion.img
           alt={settings.name}
-          className="w-full h-full object-cover opacity-[0.08] grayscale meet-portrait"
+          className="w-full h-full object-cover object-top opacity-[0.18] meet-portrait"
           src={settings.portraitUrl || "/meet_nakum.jpg"}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07090D] via-[#07090D]/50 to-[#07090D]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07090D]/60 via-[#07090D]/40 to-[#07090D]" />
       </div>
 
       <motion.div

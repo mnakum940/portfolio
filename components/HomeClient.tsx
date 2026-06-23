@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchCloudData } from "../utils/db";
 import { motion } from "framer-motion";
 import BootSequence from "./BootSequence";
 import BgCanvas from "./BgCanvas";
@@ -20,6 +21,10 @@ import NyraCompanion from "./NyraCompanion";
 
 export default function HomeClient() {
   const [booted, setBooted] = useState(false);
+
+  useEffect(() => {
+    fetchCloudData();
+  }, []);
 
   return (
     <>

@@ -162,6 +162,7 @@ export function getStoredProjects(): Project[] {
 export function setStoredProjects(projects: Project[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem("portfolio_projects", JSON.stringify(projects));
+  syncWithCloud("projects", projects);
 }
 
 export function getStoredPublications(): Publication[] {
@@ -181,6 +182,7 @@ export function getStoredPublications(): Publication[] {
 export function setStoredPublications(publications: Publication[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem("portfolio_publications", JSON.stringify(publications));
+  syncWithCloud("publications", publications);
 }
 
 export function getStoredExperiences(): ExperienceItem[] {
@@ -200,6 +202,7 @@ export function getStoredExperiences(): ExperienceItem[] {
 export function setStoredExperiences(experiences: ExperienceItem[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem("portfolio_experiences", JSON.stringify(experiences));
+  syncWithCloud("experiences", experiences);
 }
 
 export function getStoredSettings(): ProfileSettings {
@@ -219,6 +222,7 @@ export function getStoredSettings(): ProfileSettings {
 export function setStoredSettings(settings: ProfileSettings) {
   if (typeof window === "undefined") return;
   localStorage.setItem("portfolio_settings", JSON.stringify(settings));
+  syncWithCloud("settings", settings);
 }
 
 export interface Skill {
@@ -267,6 +271,7 @@ export function getStoredSkills(): Skill[] {
 export function setStoredSkills(skills: Skill[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem("portfolio_skills", JSON.stringify(skills));
+  syncWithCloud("skills", skills);
 }
 
 export function getStoredMessages(): ContactMessage[] {
@@ -286,6 +291,7 @@ export function getStoredMessages(): ContactMessage[] {
 export function setStoredMessages(messages: ContactMessage[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem("portfolio_messages", JSON.stringify(messages));
+  syncWithCloud("messages", messages);
 }
 
 export interface Testimonial {
@@ -316,6 +322,59 @@ export function getStoredTestimonials(): Testimonial[] {
 export function setStoredTestimonials(testimonials: Testimonial[]) {
   if (typeof window === "undefined") return;
   localStorage.setItem("portfolio_testimonials", JSON.stringify(testimonials));
+  syncWithCloud("testimonials", testimonials);
+}
+
+function syncWithCloud(type: string, data: unknown) {
+  if (typeof window === "undefined") return;
+  const auth = localStorage.getItem("admin_auth");
+  if (!auth) return; // Only authenticated admin can sync updates to cloud
+  
+  fetch("/api/portfolio-db", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type, data, password: auth }),
+  }).catch((err) => console.error("Cloud sync failed:", err));
+}
+
+export function fetchCloudData() {
+  if (typeof window === "undefined") return;
+  fetch("/api/portfolio-db")
+    .then((res) => res.json())
+    .then((payload) => {
+      if (!payload || payload.error) return;
+
+      let updated = false;
+      const keys = [
+        { key: "portfolio_projects", data: payload.projects },
+        { key: "portfolio_publications", data: payload.publications },
+        { key: "portfolio_experiences", data: payload.experiences },
+        { key: "portfolio_settings", data: payload.settings },
+        { key: "portfolio_skills", data: payload.skills },
+        { key: "portfolio_testimonials", data: payload.testimonials },
+        { key: "portfolio_messages", data: payload.messages },
+      ];
+
+      keys.forEach(({ key, data }) => {
+        if (data) {
+          const currentStr = localStorage.getItem(key);
+          const nextStr = JSON.stringify(data);
+          if (currentStr !== nextStr) {
+            localStorage.setItem(key, nextStr);
+            updated = true;
+          }
+        }
+      });
+
+      if (updated) {
+        // Dispatch events so components re-read from localStorage instantly
+        window.dispatchEvent(new Event("storage"));
+        window.dispatchEvent(new Event("settings_updated"));
+        window.dispatchEvent(new Event("projects_updated"));
+        window.dispatchEvent(new Event("messages_updated"));
+      }
+    })
+    .catch((err) => console.error("Cloud fetch failed:", err));
 }
 
 

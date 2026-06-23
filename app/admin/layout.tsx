@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ContactMessage } from "../../utils/db";
+import { ContactMessage, fetchCloudData } from "../../utils/db";
 
 export default function AdminLayout({
   children,
@@ -18,6 +18,7 @@ export default function AdminLayout({
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
+    fetchCloudData();
     if (localStorage.getItem("admin_auth") === "meet123") {
       setIsAuthenticated(true);
     }

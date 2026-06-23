@@ -130,15 +130,11 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
     setTimeout(onComplete, 1000);
   }, [exiting, onComplete]);
 
-  // Once boot is done, animate progress to 100% and auto-initialize after a short hold
+  // Once boot is done, animate progress to 100%
   useEffect(() => {
-    if (!bootDone || exiting) return;
+    if (!bootDone) return;
     setProgress(100);
-    const timer = setTimeout(() => {
-      handleInitialize();
-    }, 600); // 600ms hold at 100% to let user see status
-    return () => clearTimeout(timer);
-  }, [bootDone, exiting, handleInitialize]);
+  }, [bootDone]);
 
   // Status color helper
   const statusColor = (s: string) => {
@@ -372,6 +368,29 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
                 </span>
               </div>
             </motion.div>
+
+            {/* Interactive Initialize Button */}
+            <AnimatePresence>
+              {bootDone && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className="mt-8 relative z-50"
+                >
+                  <button
+                    onClick={handleInitialize}
+                    className="relative px-8 py-3.5 rounded-xl text-xs font-bold uppercase tracking-[0.2em] text-[#00f3ff] bg-cyan-950/20 border border-cyan-500/35 overflow-hidden group hover:border-cyan-400 hover:shadow-[0_0_35px_rgba(0,243,255,0.35)] transition-all duration-300 cursor-pointer active:scale-95 flex items-center gap-3"
+                    style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+                  >
+                    <span className="absolute inset-0 bg-cyan-400/5 group-hover:bg-cyan-400/10 transition-colors pointer-events-none" />
+                    <span className="material-symbols-outlined text-[16px] animate-pulse">power_settings_new</span>
+                    INITIALIZE PORTFOLIO
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
 
           </div>

@@ -31,14 +31,14 @@ export default function HomeClient() {
       {/* Boot Sequence Overlay */}
       {!booted && <BootSequence onComplete={() => setBooted(true)} />}
 
-      {/* Portfolio (hidden until boot completes, then fades in) */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: booted ? 1 : 0 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="relative min-h-screen w-full bg-[#07090D] text-on-surface overflow-x-hidden selection:bg-primary/30 selection:text-white"
-        style={{ pointerEvents: booted ? "auto" : "none" }}
-      >
+      {/* Portfolio (mounts and fades in only after boot completes) */}
+      {booted && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative min-h-screen w-full bg-[#07090D] text-on-surface overflow-x-hidden selection:bg-primary/30 selection:text-white"
+        >
         {/* Custom Cursor */}
         <CustomCursor />
 
@@ -68,7 +68,8 @@ export default function HomeClient() {
 
         {/* Footer */}
         <Footer />
-      </motion.div>
+        </motion.div>
+      )}
     </>
   );
 }

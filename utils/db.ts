@@ -213,7 +213,8 @@ export function getStoredSettings(): ProfileSettings {
     return DEFAULT_SETTINGS;
   }
   try {
-    return JSON.parse(stored);
+    const parsed = JSON.parse(stored);
+    return { ...DEFAULT_SETTINGS, ...parsed };
   } catch {
     return DEFAULT_SETTINGS;
   }

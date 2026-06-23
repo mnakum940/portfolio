@@ -1,0 +1,7 @@
+Changed file: components/About.tsx
+Before: the About section's left-side card displayed a terminal icon using a <span> with the Material Symbols font.
+After: the left-side card now displays the image located at /about_meet_nakum.png using an <img> element.
+
+Updated file: components/About.tsx
+Before: the image was wrapped in an inner padded container and did not fill the full square area.
+After: the image now fills the full square card area with no extra inner border or padding.

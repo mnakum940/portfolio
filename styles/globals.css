@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #a3c9ff;
+  --color-on-primary: #00315c;
+  --color-primary-container: #5fa8ff;
+  --color-on-primary-container: #003c6e;
+  --color-secondary: #c6bfff;
+  --color-on-secondary: #29069c;
+  --color-secondary-container: #4331b4;
+  --color-on-secondary-container: #b7afff;
+  --color-tertiary: #fcbc31;
+  --color-on-tertiary: #412d00;
+  --color-tertiary-container: #d69b00;
+  --color-on-tertiary-container: #4f3700;
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+  --color-error-container: #93000a;
+  --color-on-error-container: #ffdad6;
+  --color-background: #101419;
+  --color-on-background: #e0e2ea;
+  --color-surface: #101419;
+  --color-on-surface: #e0e2ea;
+  --color-surface-variant: #32353b;
+  --color-on-surface-variant: #c1c7d3;
+  --color-outline: #8b919d;
+  --color-outline-variant: #414752;
+  --color-inverse-surface: #e0e2ea;
+  --color-inverse-on-surface: #2d3136;
+  --color-inverse-primary: #0060ab;
+  --color-surface-dim: #101419;
+  --color-surface-bright: #36393f;
+  --color-surface-container-lowest: #0b0e13;
+  --color-surface-container-low: #181c21;
+  --color-surface-container: #1d2025;
+  --color-surface-container-high: #272a30;
+  --color-surface-container-highest: #32353b;
+  --color-surface-tint: #a3c9ff;
+
+  --font-display: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-body: var(--font-inter), system-ui, sans-serif;
+
+  --spacing-margin-mobile: 20px;
+  --spacing-margin-desktop: 64px;
+  --spacing-container-max: 1280px;
+  --spacing-gutter: 24px;
+  --spacing-unit: 8px;
+
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --radius-4xl: 2.5rem;
+}
+
+/* Base resets & custom scrollbar */
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: #07090D;
+  color: #e0e2ea;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #07090D;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Glassmorphism & Gloss elements */
+.glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  border-right: 1px solid rgba(255, 255, 255, 0.02);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gloss Sweep Hover Animation */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.75s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.glass-card:hover::before {
+  left: 150%;
+}
+
+/* Background Grids & Glows */
+.grid-pattern {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.hero-glow {
+  background: radial-gradient(circle at 50% 50%, rgba(95, 168, 255, 0.12) 0%, transparent 70%);
+}
+
+/* Marquee Track Infinite Loop */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* Timeline vertical line custom gradient */
+.timeline-line {
+  background: linear-gradient(to bottom, #a3c9ff 0%, #a3c9ff 50%, rgba(163, 201, 255, 0.1) 100%);
+}
+
+/* Parallax ease transiton */
+.parallax-target {
+  will-change: transform;
+}
+
+/* Portrait grayscale hover override */
+.meet-portrait {
+  filter: grayscale(100%) !important;
+}
+.group:hover .meet-portrait {
+  filter: grayscale(0%) !important;
+}

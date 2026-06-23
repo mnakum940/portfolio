@@ -23,6 +23,10 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Meet Nakum — AI Engineer & Architect",
   description: "Engineering precision intelligence. Specializing in autonomous agent systems and self-hardening LLM security architectures.",
+  icons: {
+    icon: "/mn-logo.png",
+    apple: "/mn-logo.png",
+  },
 };
 
 export default function RootLayout({

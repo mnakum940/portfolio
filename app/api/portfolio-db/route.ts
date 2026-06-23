@@ -60,6 +60,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Auth-only check (login validation) — don't write to DB
+    if (type === "__auth_check") {
+      return NextResponse.json({ success: true, authenticated: true });
+    }
+
     if (!type || data === undefined) {
       return NextResponse.json({ error: "Missing type or data" }, { status: 400 });
     }

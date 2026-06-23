@@ -62,7 +62,7 @@ export default function AdminLayout({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: "__auth_check", data: null, password }),
       });
-      if (res.ok || res.status !== 401) {
+      if (res.ok) {
         localStorage.setItem("admin_auth", "authenticated");
         localStorage.setItem("admin_pass", password); // Used for subsequent API calls
         setIsAuthenticated(true);

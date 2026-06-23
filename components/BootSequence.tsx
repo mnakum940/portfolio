@@ -35,6 +35,53 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
 
   const terminalRef = useRef<HTMLDivElement>(null);
   const hasInitialized = useRef(false);
+  const glitchAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Play and control glitch sound loop
+  useEffect(() => {
+    const audio = new Audio("/virtual_vibes-glitch-sound-effect-hd-379466.mp3");
+    audio.loop = true;
+    glitchAudioRef.current = audio;
+
+    const playAudio = () => {
+      audio.play().catch((err) => {
+        console.log("Autoplay blocked, waiting for user interaction to trigger loop:", err);
+      });
+    };
+
+    playAudio();
+
+    const handleInteraction = () => {
+      playAudio();
+      window.removeEventListener("click", handleInteraction);
+      window.removeEventListener("keydown", handleInteraction);
+    };
+
+    window.addEventListener("click", handleInteraction);
+    window.addEventListener("keydown", handleInteraction);
+
+    return () => {
+      audio.pause();
+      window.removeEventListener("click", handleInteraction);
+      window.removeEventListener("keydown", handleInteraction);
+    };
+  }, []);
+
+  // Stop glitch sound with smooth fade out when boot is completed
+  useEffect(() => {
+    if (bootDone && glitchAudioRef.current) {
+      const audio = glitchAudioRef.current;
+      let volume = 1;
+      const fadeInterval = setInterval(() => {
+        volume = Math.max(0, volume - 0.1);
+        audio.volume = volume;
+        if (volume <= 0) {
+          clearInterval(fadeInterval);
+          audio.pause();
+        }
+      }, 55); // Smooth 550ms fade out
+    }
+  }, [bootDone]);
 
   // Scroll terminal to bottom
   const scrollToBottom = useCallback(() => {
@@ -125,6 +172,13 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
 
   const handleInitialize = useCallback(() => {
     if (exiting) return;
+
+    // Trigger premium click sound effect
+    const clickAudio = new Audio("/matthewvakaliuk73627-mouse-click-290204.mp3");
+    clickAudio.play().catch((err) => {
+      console.log("Button click sound block:", err);
+    });
+
     setExiting(true);
     // Transition duration ~1s, then call onComplete
     setTimeout(onComplete, 1000);

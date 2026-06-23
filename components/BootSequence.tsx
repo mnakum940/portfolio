@@ -36,12 +36,16 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
   const terminalRef = useRef<HTMLDivElement>(null);
   const hasInitialized = useRef(false);
   const glitchAudioRef = useRef<HTMLAudioElement | null>(null);
+  const clickAudioRef = useRef<HTMLAudioElement | null>(null);
 
   // Play and control glitch sound loop
   useEffect(() => {
     const audio = new Audio("/virtual_vibes-glitch-sound-effect-hd-379466.mp3");
     audio.loop = true;
     glitchAudioRef.current = audio;
+
+    const clickAudio = new Audio("/matthewvakaliuk73627-mouse-click-290204.mp3");
+    clickAudioRef.current = clickAudio;
 
     const playAudio = () => {
       audio.play().catch((err) => {
@@ -173,11 +177,12 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
   const handleInitialize = useCallback(() => {
     if (exiting) return;
 
-    // Trigger premium click sound effect
-    const clickAudio = new Audio("/matthewvakaliuk73627-mouse-click-290204.mp3");
-    clickAudio.play().catch((err) => {
-      console.log("Button click sound block:", err);
-    });
+    // Trigger preloaded click sound effect
+    if (clickAudioRef.current) {
+      clickAudioRef.current.play().catch((err) => {
+        console.log("Button click sound block:", err);
+      });
+    }
 
     setExiting(true);
     // Transition duration ~1s, then call onComplete

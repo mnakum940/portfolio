@@ -130,11 +130,15 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
     setTimeout(onComplete, 1000);
   }, [exiting, onComplete]);
 
-  // Once boot is done, animate progress to 100%
+  // Once boot is done, animate progress to 100% and auto-initialize if not clicked within 5 seconds
   useEffect(() => {
-    if (!bootDone) return;
+    if (!bootDone || exiting) return;
     setProgress(100);
-  }, [bootDone]);
+    const timer = setTimeout(() => {
+      handleInitialize();
+    }, 5000); // 5 seconds auto-redirect fallback
+    return () => clearTimeout(timer);
+  }, [bootDone, exiting, handleInitialize]);
 
   // Status color helper
   const statusColor = (s: string) => {

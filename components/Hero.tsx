@@ -77,16 +77,20 @@ export default function Hero() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center pt-[88px] lg:pt-[72px] pb-12 lg:pb-0 px-margin-mobile lg:px-margin-desktop w-full max-w-container-max mx-auto overflow-hidden"
+      className="relative min-h-screen flex items-end lg:items-center pt-[88px] lg:pt-[72px] pb-8 lg:pb-0 px-margin-mobile lg:px-margin-desktop w-full max-w-container-max mx-auto overflow-hidden"
     >
       {/* Mobile background portrait overlay to save space and reduce scroll */}
       <div className="absolute inset-0 block lg:hidden z-0 overflow-hidden">
         <motion.img
           alt={settings.name}
-          className="w-full h-full object-cover object-top opacity-[0.18] meet-portrait"
+          className="w-full h-full object-cover object-top meet-portrait"
           src={settings.portraitUrl || "/meet_nakum.jpg"}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07090D]/60 via-[#07090D]/40 to-[#07090D]" />
+        {/* Heavy vignette from all edges for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07090D] via-[#07090D]/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#07090D]/80 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#07090D]/60 via-transparent to-[#07090D]/60" />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, transparent 30%, #07090D 85%)' }} />
       </div>
 
       <motion.div

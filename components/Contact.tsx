@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { FormEvent, useEffect, useState } from "react";
-import { getStoredSettings, getStoredMessages, setStoredMessages, DEFAULT_SETTINGS, ProfileSettings } from "../utils/db";
+import { getStoredSettings, getStoredMessages, DEFAULT_SETTINGS, ProfileSettings, formatSocialLink } from "../utils/db";
 
 export default function Contact() {
   const [settings, setSettings] = useState<ProfileSettings>(DEFAULT_SETTINGS);
@@ -44,7 +44,6 @@ export default function Contact() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     
-    const stored = getStoredMessages();
     const newMsg = {
       id: `msg-${Date.now()}`,
       name: formData.name,
@@ -54,8 +53,31 @@ export default function Contact() {
       timestamp: new Date().toISOString(),
       status: "UNREAD" as const,
     };
+
+    // Store locally first for immediate feedback
+    const stored = getStoredMessages();
     stored.unshift(newMsg);
-    setStoredMessages(stored);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("portfolio_messages", JSON.stringify(stored));
+    }
+
+    // Securely POST message to Supabase via the contact API route
+    fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          console.error("Contact database sync failed");
+        }
+      })
+      .catch((err) => console.error("Contact sync error:", err));
     
     // Clear Form
     setFormData({
@@ -132,7 +154,7 @@ export default function Contact() {
               {settings.github !== "#" && (
                 <a
                   className="w-10 h-10 lg:w-12 lg:h-12 glass-card rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-90"
-                  href={settings.github}
+                  href={formatSocialLink("github", settings.github)}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -143,7 +165,7 @@ export default function Contact() {
               {settings.linkedin !== "#" && (
                 <a
                   className="w-10 h-10 lg:w-12 lg:h-12 glass-card rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-90"
-                  href={settings.linkedin}
+                  href={formatSocialLink("linkedin", settings.linkedin)}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"

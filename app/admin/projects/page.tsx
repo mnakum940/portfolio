@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getStoredProjects, setStoredProjects, Project, DEFAULT_PROJECTS } from "../../../utils/db";
+import { getStoredProjects, setStoredProjects, Project, DEFAULT_PROJECTS, formatExternalLink } from "../../../utils/db";
 
 export default function AdminProjects() {
   const [projects, setProjects] = useState<Project[]>(DEFAULT_PROJECTS);
@@ -178,7 +178,9 @@ export default function AdminProjects() {
               </div>
               <a
                 className="text-primary text-sm font-bold flex items-center gap-2 hover:gap-4 transition-all w-fit"
-                href={proj.link}
+                href={formatExternalLink(proj.link)}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 VIEW PROJECT LIVE{" "}
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>

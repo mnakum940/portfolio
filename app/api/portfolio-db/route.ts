@@ -4,12 +4,16 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 // Get all keys
-export async function GET() {
+export async function GET(req: Request) {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     return NextResponse.json({ error: "Missing Supabase configuration" }, { status: 500 });
   }
 
   try {
+    const { searchParams } = new URL(req.url);
+    const password = searchParams.get("password");
+    const isAdmin = password === "meet123";
+
     const res = await fetch(`${SUPABASE_URL}/rest/v1/portfolio_store`, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -27,6 +31,10 @@ export async function GET() {
     
     // Reduce array of {key, value} to a single object
     const data = (rows as Array<{ key: string; value: unknown }>).reduce((acc: Record<string, unknown>, row) => {
+      // Secure messages key
+      if (row.key === "messages" && !isAdmin) {
+        return acc;
+      }
       acc[row.key] = row.value;
       return acc;
     }, {});

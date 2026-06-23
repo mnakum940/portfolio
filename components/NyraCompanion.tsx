@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import NyraEntity from "./NyraEntity";
+import { getStoredSettings, DEFAULT_SETTINGS, ProfileSettings, formatSocialLink } from "../utils/db";
 
 interface MessageAction {
   label: string;
@@ -47,6 +48,21 @@ export default function NyraCompanion() {
   const [inputValue, setInputValue] = useState("");
   const [hasInteracted, setHasInteracted] = useState(false);
   const [bubble, setBubble] = useState<{ type: "greeting" | "farewell" | null; text: string }>({ type: null, text: "" });
+  const [settings, setSettings] = useState<ProfileSettings>(DEFAULT_SETTINGS);
+
+  useEffect(() => {
+    setSettings(getStoredSettings());
+
+    const handleSync = () => {
+      setSettings(getStoredSettings());
+    };
+    window.addEventListener("storage", handleSync);
+    window.addEventListener("settings_updated", handleSync);
+    return () => {
+      window.removeEventListener("storage", handleSync);
+      window.removeEventListener("settings_updated", handleSync);
+    };
+  }, []);
 
   const chatEndRef = useRef<HTMLDivElement | null>(null);
   const bubbleTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -228,15 +244,15 @@ export default function NyraCompanion() {
         targetSection = "contact";
         actions = [
           { label: "Contact Meet", icon: "mail", href: "#contact" },
-          { label: "LinkedIn", icon: "link", href: "#" },
-          { label: "GitHub", icon: "code", href: "#" },
+          { label: "LinkedIn", icon: "link", href: formatSocialLink("linkedin", settings.linkedin) },
+          { label: "GitHub", icon: "code", href: formatSocialLink("github", settings.github) },
         ];
       } else if (q.includes("linkedin")) {
         replyText = "Here's a direct link to Meet Nakum's LinkedIn profile.";
-        actions = [{ label: "LinkedIn", icon: "link", href: "#" }];
+        actions = [{ label: "LinkedIn", icon: "link", href: formatSocialLink("linkedin", settings.linkedin) }];
       } else if (q.includes("github")) {
         replyText = "Here's a direct link to Meet's GitHub repositories.";
-        actions = [{ label: "GitHub", icon: "code", href: "#" }];
+        actions = [{ label: "GitHub", icon: "code", href: formatSocialLink("github", settings.github) }];
       } else if (q.includes("bio") || q.includes("profile") || q.includes("who is") || q.includes("about") || q.includes("meet") || q.includes("background")) {
         replyText = "Meet Nakum is an AI Engineer and M.Tech researcher engineering autonomous systems and zero-trust security perimeters for LLMs. Let me show you his biography in the About section.";
         targetSection = "about";

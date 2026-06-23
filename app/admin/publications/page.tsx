@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getStoredPublications, setStoredPublications, Publication, DEFAULT_PUBLICATIONS } from "../../../utils/db";
+import { getStoredPublications, setStoredPublications, Publication, DEFAULT_PUBLICATIONS, formatExternalLink } from "../../../utils/db";
 
 export default function AdminPublications() {
   const [publications, setPublications] = useState<Publication[]>(DEFAULT_PUBLICATIONS);
@@ -449,7 +449,9 @@ export default function AdminPublications() {
                       {pub.link && (
                         <a
                           className="text-primary font-bold text-xs flex items-center gap-1 hover:underline"
-                          href={pub.link}
+                          href={formatExternalLink(pub.link)}
+                          target="_blank"
+                          rel="noopener noreferrer"
                         >
                           {pub.link.startsWith("http") ? "LINK" : "DOI"}{" "}
                           <span className="material-symbols-outlined text-[14px]">

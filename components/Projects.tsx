@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { getStoredProjects, Project, DEFAULT_PROJECTS } from "../utils/db";
+import { getStoredProjects, Project, DEFAULT_PROJECTS, formatExternalLink } from "../utils/db";
 
 export default function Projects() {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -155,7 +155,7 @@ export default function Projects() {
                       )}
                       <div className="flex gap-4 pt-2">
                         <a
-                          href={proj.link}
+                          href={formatExternalLink(proj.link)}
                           className="px-5 py-2.5 lg:px-6 lg:py-3 bg-white text-black font-bold rounded-xl hover:scale-105 transition-transform active:scale-95 text-center flex items-center justify-center text-sm lg:text-base"
                         >
                           Explore {proj.title}
@@ -218,7 +218,7 @@ export default function Projects() {
                       )}
                       <div className="flex gap-4 pt-2">
                         <a
-                          href={proj.link}
+                          href={formatExternalLink(proj.link)}
                           className="px-5 py-2.5 lg:px-6 lg:py-3 bg-tertiary text-on-tertiary font-bold rounded-xl hover:scale-105 transition-transform active:scale-95 text-center flex items-center justify-center text-sm lg:text-base"
                         >
                           Explore {proj.title}

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { getStoredPublications, Publication, DEFAULT_PUBLICATIONS } from "../utils/db";
+import { getStoredPublications, Publication, DEFAULT_PUBLICATIONS, formatExternalLink } from "../utils/db";
 
 export default function Publications() {
   const [papers, setPapers] = useState<Publication[]>(DEFAULT_PUBLICATIONS);
@@ -91,7 +91,7 @@ export default function Publications() {
             
             <a
               className="inline-flex items-center gap-2 text-primary font-bold hover:underline w-fit self-start pt-2 text-sm lg:text-base"
-              href={paper.link}
+              href={formatExternalLink(paper.link)}
             >
               Read Paper
               <span className="material-symbols-outlined text-[14px] lg:text-[16px]">

@@ -340,7 +340,9 @@ function syncWithCloud(type: string, data: unknown) {
 
 export function fetchCloudData() {
   if (typeof window === "undefined") return;
-  fetch("/api/portfolio-db")
+  const auth = localStorage.getItem("admin_auth") || "";
+  const url = auth ? `/api/portfolio-db?password=${encodeURIComponent(auth)}` : "/api/portfolio-db";
+  fetch(url)
     .then((res) => res.json())
     .then((payload) => {
       if (!payload || payload.error) return;
@@ -376,6 +378,40 @@ export function fetchCloudData() {
       }
     })
     .catch((err) => console.error("Cloud fetch failed:", err));
+}
+
+export function formatSocialLink(type: "github" | "linkedin" | "twitter" | "email", val: string): string {
+  if (!val || val === "#") return "#";
+  const clean = val.trim();
+  if (type === "email") {
+    return clean.startsWith("mailto:") ? clean : `mailto:${clean}`;
+  }
+  if (clean.startsWith("http://") || clean.startsWith("https://")) {
+    return clean;
+  }
+  if (type === "github") {
+    return `https://github.com/${clean}`;
+  }
+  if (type === "linkedin") {
+    return `https://linkedin.com/in/${clean}`;
+  }
+  if (type === "twitter") {
+    return `https://twitter.com/${clean}`;
+  }
+  return clean;
+}
+
+export function formatExternalLink(url: string | undefined): string {
+  if (!url) return "#";
+  const clean = url.trim();
+  if (clean === "" || clean === "#" || clean.startsWith("/")) return clean;
+  if (clean.startsWith("http://") || clean.startsWith("https://") || clean.startsWith("mailto:")) {
+    return clean;
+  }
+  if (clean.includes("@") && !clean.includes("/")) {
+    return `mailto:${clean}`;
+  }
+  return `https://${clean}`;
 }
 
 

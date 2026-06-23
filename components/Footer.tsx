@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getStoredSettings, DEFAULT_SETTINGS, ProfileSettings } from "../utils/db";
+import { getStoredSettings, DEFAULT_SETTINGS, ProfileSettings, formatSocialLink } from "../utils/db";
 
 export default function Footer() {
   const [settings, setSettings] = useState<ProfileSettings>(DEFAULT_SETTINGS);
@@ -33,7 +33,7 @@ export default function Footer() {
           {settings.twitter && settings.twitter !== "#" && (
             <a
               className="text-[12px] tracking-[0.1em] font-bold uppercase text-on-surface-variant hover:text-on-surface transition-colors"
-              href={settings.twitter}
+              href={formatSocialLink("twitter", settings.twitter)}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -43,7 +43,7 @@ export default function Footer() {
           {settings.github && settings.github !== "#" && (
             <a
               className="text-[12px] tracking-[0.1em] font-bold uppercase text-on-surface-variant hover:text-on-surface transition-colors"
-              href={settings.github}
+              href={formatSocialLink("github", settings.github)}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -53,7 +53,7 @@ export default function Footer() {
           {settings.linkedin && settings.linkedin !== "#" && (
             <a
               className="text-[12px] tracking-[0.1em] font-bold uppercase text-on-surface-variant hover:text-on-surface transition-colors"
-              href={settings.linkedin}
+              href={formatSocialLink("linkedin", settings.linkedin)}
               target="_blank"
               rel="noopener noreferrer"
             >

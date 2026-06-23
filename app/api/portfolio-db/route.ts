@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
 
 // Get all keys
 export async function GET(req: Request) {
@@ -12,7 +13,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const password = searchParams.get("password");
-    const isAdmin = password === "meet123";
+    const isAdmin = ADMIN_PASSWORD && password === ADMIN_PASSWORD;
 
     const res = await fetch(`${SUPABASE_URL}/rest/v1/portfolio_store`, {
       headers: {
@@ -55,7 +56,7 @@ export async function POST(req: Request) {
   try {
     const { type, data, password } = await req.json();
 
-    if (password !== "meet123") {
+    if (!ADMIN_PASSWORD || password !== ADMIN_PASSWORD) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

@@ -328,7 +328,7 @@ export function setStoredTestimonials(testimonials: Testimonial[]) {
 
 function syncWithCloud(type: string, data: unknown) {
   if (typeof window === "undefined") return;
-  const auth = localStorage.getItem("admin_auth");
+  const auth = localStorage.getItem("admin_pass");
   if (!auth) return; // Only authenticated admin can sync updates to cloud
   
   fetch("/api/portfolio-db", {
@@ -340,7 +340,7 @@ function syncWithCloud(type: string, data: unknown) {
 
 export function fetchCloudData() {
   if (typeof window === "undefined") return;
-  const auth = localStorage.getItem("admin_auth") || "";
+  const auth = localStorage.getItem("admin_pass") || "";
   const url = auth ? `/api/portfolio-db?password=${encodeURIComponent(auth)}` : "/api/portfolio-db";
   fetch(url)
     .then((res) => res.json())

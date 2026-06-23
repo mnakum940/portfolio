@@ -19,7 +19,7 @@ export default function AdminLayout({
 
   useEffect(() => {
     fetchCloudData();
-    if (localStorage.getItem("admin_auth") === "meet123") {
+    if (localStorage.getItem("admin_auth") === "authenticated") {
       setIsAuthenticated(true);
     }
     setLoading(false);
@@ -52,13 +52,24 @@ export default function AdminLayout({
     };
   }, []);
 
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "meet123") {
-      localStorage.setItem("admin_auth", "meet123");
-      setIsAuthenticated(true);
-      setError(false);
-    } else {
+    setError(false);
+    try {
+      // Validate password server-side via API
+      const res = await fetch("/api/portfolio-db", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "__auth_check", data: null, password }),
+      });
+      if (res.ok || res.status !== 401) {
+        localStorage.setItem("admin_auth", "authenticated");
+        localStorage.setItem("admin_pass", password); // Used for subsequent API calls
+        setIsAuthenticated(true);
+      } else {
+        setError(true);
+      }
+    } catch {
       setError(true);
     }
   };
